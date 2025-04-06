@@ -1,171 +1,216 @@
-package com.ewoner.jcac_etc_questions.models.questions.Abstracts;
+package com.ewoner.java_etc_questions.models.questions.abstracts;
 
-import com.ewoner.jcac_etc_questions.models.text.Text;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-/**
- * @author Brion Lang
- * @date 20 July 2022
- * @version 0.0.0
- */
-public abstract class Question implements QuestionParser {
+public abstract class Question {
 
-    private Text name;
-    private Text questiontext;
     private QuestionTypeEnum type;
-    private String idnumber;
-    private double defaultgrade;
-    private double penalty;
+
+    private int id;
+
+    private double defaultGrade;
+    private String generalFB;
     private boolean hidden;
-    private boolean showstandardinstruction;
-
-    private Question( QuestionTypeEnum type ) {
-        this( type, new Text(), new Text() );
-    }
-
-    /**
-     *
-     * @param type
-     * @param name
-     * @param questiontext
-     */
-    public Question( QuestionTypeEnum type, Text name, Text questiontext ) {
-        this.type = type;
-        this.name = name;
-        this.questiontext = questiontext;
-
-        this.idnumber = "";
-        defaultgrade = 0.0;
-        penalty = 1.0;
-        hidden = true;
-    }
+    private String idNumber;
+    private String name;
+    private double penalty;
+    private String text;
+    private List<String> tags;
 
     private Question() {
-        this( QuestionTypeEnum.NONE, new Text(), new Text() );
+        this( QuestionTypeEnum.NONE, 0, "QUESTION NAME", "QUESTION TEXT", "GENERALFEEDBACK TEXT" );
+    }
 
+    public Question( QuestionTypeEnum type ) {
+        this( type, 0, "QUESTION NAME", "QUESTION TEXT", "GENERALFEEDBACK TEXT" );
+    }
+
+    public Question( QuestionTypeEnum type, int id ) {
+        this( type, id, "QUESTION NAME", "QUESTION TEXT", "GENERALFEEDBACK TEXT" );
+    }
+
+    public Question( QuestionTypeEnum type, int id, String name, String text ) {
+        this( type, id, name, text, "" );
+    }
+
+    public Question( QuestionTypeEnum type, String name, String text ) {
+        this( type, 0, name, text, "" );
+    }
+
+    public Question( QuestionTypeEnum type, String name, String text, String generalFB ) {
+        this( type, 0, name, text, generalFB );
+    }
+
+    public Question( QuestionTypeEnum type, int id, String name, String text, String generalFB ) {
+        this.type = type;
+        this.id = id;
+        this.name = name;
+        this.text = text;
+        this.generalFB = generalFB;
+        this.hidden = false;
+        this.idNumber = "";
+        this.penalty = 1.0;
+        this.defaultGrade = 1.0;
+        this.tags = new ArrayList<>();
     }
 
     /**
-     *
-     * @return
+     * @return the id
      */
-    public Text getName() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId( int id ) {
+        this.id = id;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
         return name;
     }
 
     /**
-     *
-     * @param name
+     * @param name the name to set
      */
-    public void setName( Text name ) {
+    public void setName( String name ) {
         this.name = name;
     }
 
     /**
-     *
-     * @return
+     * @return the text
      */
-    public Text getQuestiontext() {
-        return questiontext;
+    public String getText() {
+        return text;
     }
 
     /**
-     *
-     * @param questiontext
+     * @param text the text to set
      */
-    public void setQuestiontext( Text questiontext ) {
-        this.questiontext = questiontext;
+    public void setText( String text ) {
+        this.text = text;
     }
 
     /**
-     *
-     * @return
+     * @return the generalFB
      */
-    public QuestionTypeEnum getType() {
-        return type;
+    public String getGeneralFB() {
+        return generalFB;
     }
 
     /**
-     *
-     * @param type
+     * @param generalFB the generalFB to set
      */
-    public void setType( QuestionTypeEnum type ) {
-        this.type = type;
+    public void setGeneralFB( String generalFB ) {
+        this.generalFB = generalFB;
     }
 
     /**
-     *
-     * @return
+     * @return the defaultGrade
      */
-    public String getIdnumber() {
-        return idnumber;
+    public double getDefaultGrade() {
+        return defaultGrade;
     }
 
     /**
-     *
-     * @param idnumber
+     * @param defaultGrade the defaultGrade to set
      */
-    public void setIdnumber( String idnumber ) {
-        this.idnumber = idnumber;
+    public void setDefaultGrade( double defaultGrade ) {
+        this.defaultGrade = defaultGrade;
     }
 
     /**
-     *
-     * @return
+     * @return the penalty
      */
     public double getPenalty() {
         return penalty;
     }
 
     /**
-     *
-     * @param penalty
+     * @param penalty the penalty to set
      */
     public void setPenalty( double penalty ) {
         this.penalty = penalty;
     }
 
     /**
-     *
-     * @return
+     * @return the hidden
      */
     public boolean isHidden() {
         return hidden;
     }
 
     /**
-     *
-     * @param hidden
+     * @param hidden the hidden to set
      */
     public void setHidden( boolean hidden ) {
         this.hidden = hidden;
     }
 
     /**
-     * @return the defaultgrade
+     * @return the idNumber
      */
-    public double getDefaultgrade() {
-        return defaultgrade;
+    public String getIdNumber() {
+        return idNumber;
     }
 
     /**
-     * @param defaultgrade the defaultgrade to set
+     * @param idNumber the idNumber to set
      */
-    public void setDefaultgrade( double defaultgrade ) {
-        this.defaultgrade = defaultgrade;
+    public void setIdNumber( String idNumber ) {
+        this.idNumber = idNumber;
     }
 
     /**
-     * @return the showstandardinstruction
+     * @return the type
      */
-    public boolean isShowstandardinstruction() {
-        return showstandardinstruction;
+    public QuestionTypeEnum getType() {
+        return type;
     }
 
     /**
-     * @param showstandardinstruction the showstandardinstruction to set
+     * @return the tags
      */
-    public void setShowstandardinstruction( boolean showstandardinstruction ) {
-        this.showstandardinstruction = showstandardinstruction;
+    public List<String> getTags() {
+        return Collections.unmodifiableList( tags );
     }
 
+    /**
+     * s to set
+     *
+     * @param tag
+     */
+    public void addTag( String tag ) {
+        tags.add( tag );
+    }
+
+    public void removeTag( String tag ) {
+        tags.remove( tag );
+    }
+
+    public void clearAllTags() {
+        tags.clear();
+    }
+
+    public boolean containsTag( String tag ) {
+        return tags.contains( tag );
+    }
+
+    public String getTag( int index ) {
+        return tags.get( index );
+    }
+
+    public int getTagIndex( String tag ) {
+        return tags.indexOf( tag );
+    }
+    public boolean hasTags(){
+        return ! tags.isEmpty();
+    }
+    public int numOfTags(){
+        return tags.size();
+    }
 }

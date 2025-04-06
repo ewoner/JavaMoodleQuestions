@@ -1,37 +1,37 @@
-package com.ewoner.jcac_etc_questions.models.text;
+package com.ewoner.java_etc_questions.models.text;
 
-/**
- *
- * @author student
- */
 public class Text {
-
+    private String tagName;
     private String text;
     private TextFormatEnum format;
 
-    /**
-     *
-     */
-    public Text() {
-        this( "", TextFormatEnum.plain_text );
+    
+    public Text(){
+        this("TAG NAME", "TEXT STRING", TextFormatEnum.html);
     }
-
-    /**
-     *
-     * @param text
-     */
-    public Text( String text ) {
-        this( text, TextFormatEnum.html );
+    public Text( String tagName ){
+        this(tagName, "TEXT STRING", TextFormatEnum.html);
     }
-
-    /**
-     *
-     * @param text
-     * @param format
-     */
-    public Text( String text, TextFormatEnum format ) {
+    public Text( String tagName, String text ){
+        this(tagName, text, TextFormatEnum.html);
+    }
+    public Text(String tagName, String text, TextFormatEnum format ){
+        this.tagName = tagName;
         this.text = text;
         this.format = format;
+    }
+    /**
+     * @return the tagName
+     */
+    public String getTagName() {
+        return tagName;
+    }
+
+    /**
+     * @param tagName the tagName to set
+     */
+    public void setTagName( String tagName ) {
+        this.tagName = tagName;
     }
 
     /**
@@ -56,66 +56,9 @@ public class Text {
     }
 
     /**
-     * type
-     *
      * @param format the format to set
      */
     public void setFormat( TextFormatEnum format ) {
         this.format = format;
-    }
-
-    private String getTextFormat() {
-        String rv = new String();
-        switch( getFormat() ) {
-            case plain_text:
-            case NONE:
-                rv = this.getText();
-                break;
-            case html:
-                if( getText().isEmpty() == false ) {
-                    rv = "<![CDATA[" + getText() + "]]>";
-                } else {
-                    rv = "";
-                }
-                break;
-
-        }
-        return rv;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String toXML() {
-
-        return "<text>" + getTextFormat() + "</text>";
-    }
-
-    /**
-     *
-     * @param tagName
-     * @param printType
-     * @return
-     */
-    public String toXML( String tagName, boolean printType ) {
-        if( printType ) {
-            return "<" + tagName + " format=\"" + getFormat() + "\">\n"
-                    + "<text>" + getTextFormat() + "</text>\n"
-                    + "</" + tagName + ">";
-        } else {
-            return "<" + tagName + ">\n"
-                    + "<text>" + getTextFormat() + "</text>\n"
-                    + "</" + tagName + ">";
-        }
-    }
-
-    /**
-     *
-     * @param tagName
-     * @return
-     */
-    public String toXML( String tagName ) {
-        return this.toXML( tagName, true );
     }
 }
